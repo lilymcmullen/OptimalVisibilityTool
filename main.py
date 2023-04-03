@@ -58,37 +58,7 @@ for raster in arcpy.ListRasters():
     # add the dataframe to the list
     dfs.append(df)
 
-# print the resulting dataframe
-print(dfs)
+# find the point with max visibility from the dataframe
+best_point = max(dfs)
+print(best_point)
 
-# visib1 = r"C:\Users\lilyb\OneDrive\Desktop\visibout\visiblity_analysis_1.tif"
-# arr = arcpy.da.TableToNumPyArray(visib1, "Count")
-# print(arr)
-
-#
-# # initialize lists
-# list_1 = [RVL]
-# list_2 = [RVL]
-#
-# # create empty list to store the
-# # combinations
-# unique_combinations = []
-#
-# # Getting all permutations of list_1
-# # with length of list_2
-# permut = itertools.permutations(list_1, len(list_2))
-#
-# # zip() is called to pair each permutation
-# # and shorter list element into combination
-# for comb in permut:
-#     zipped = zip(comb, list_2)
-#     unique_combinations.append(list(zipped))
-#
-# # printing unique_combination list
-# print(unique_combinations)
-#
-# #Find raster with max visible values
-# #Loop through each combination of max raster and other raster and run diff
-# #Store values into a new data frame -> value '2' is new coverage from second raster that "max" raster does not have
-# #Print raster combination with highest '2' value (most new coverage)
-# #Yay.
