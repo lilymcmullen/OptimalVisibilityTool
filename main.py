@@ -43,7 +43,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
     # save output raster with name called in above
     outvis.save(output_raster_name)
 
-# set the input directory and wildcard to match rasters
+# set the environment to the folder with output rasters
 env = r"C:\Users\lilyb\OneDrive\Desktop\visibout"
 
 # create an empty list to store the dataframes
