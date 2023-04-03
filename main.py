@@ -3,6 +3,11 @@ import arcpy
 from arcpy import env
 from arcpy.sa import *
 import os
+from osgeo import gdal
+import itertools
+from itertools import permutations
+import pandas as pd
+
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
 # set workspace
@@ -15,7 +20,8 @@ cropRaster.save("C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\
 # set input raster to cropped raster
 in_raster = "C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\SRER.gdb\\cropRaster"
 # set feature class, can be any shapefile of points
-feature_class = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\selected_points"
+points_class = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\selected_points"
+feature_class = arcpy.defense.FindLocalPeaksValleys(in_raster, points_class, "PEAKS", 15)
 # so we can call ID field
 field = 'OBJECTID'
 # list all object IDs (from field = 'OBJECTID'
@@ -29,19 +35,60 @@ for pointid in all_object_ids:  # For each object id in the object id list
     # create a layer with only this point in it
     arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
     # run visibility analysis, with in_raster and templayer as observer
-    outvis = arcpy.sa.Visibility(in_raster, 'templayer')
+    outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA")
     # name the objects using object ID
     # I named them visibility_analysis_1.tif, visibility_analysis_2.tif etc...
     output_raster_name = os.path.join(r"C:\Users\lilyb\OneDrive\Desktop\visibout",
                                       "visiblity_analysis_{0}.tif".format(pointid))
     # save output raster with name called in above
     outvis.save(output_raster_name)
-all_rasters = arcpy.ListRasters("*visibility*", "TIF")
-for raster in all_rasters:
 
-#Loop that adds 1 to each raster in the folder
-#Find raster with max visible values
-#Loop through each combination of max raster and other raster and run diff
-#Store values into a new data frame -> value '2' is new coverage from second raster that "max" raster does not have
-#Print raster combination with highest '2' value (most new coverage)
-#Yay.
+# set the input directory and wildcard to match rasters
+env = r"C:\Users\lilyb\OneDrive\Desktop\visibout"
+
+# create an empty list to store the dataframes
+dfs = []
+
+# loop through all raster files in the input directory
+for raster in arcpy.ListRasters():
+    # convert the raster to a numpy array
+    arr = arcpy.RasterToNumPyArray(raster)
+    # convert the numpy array to a pandas dataframe
+    df = pd.DataFrame(arr)
+    # add the dataframe to the list
+    dfs.append(df)
+
+# print the resulting dataframe
+print(dfs)
+
+# visib1 = r"C:\Users\lilyb\OneDrive\Desktop\visibout\visiblity_analysis_1.tif"
+# arr = arcpy.da.TableToNumPyArray(visib1, "Count")
+# print(arr)
+
+#
+# # initialize lists
+# list_1 = [RVL]
+# list_2 = [RVL]
+#
+# # create empty list to store the
+# # combinations
+# unique_combinations = []
+#
+# # Getting all permutations of list_1
+# # with length of list_2
+# permut = itertools.permutations(list_1, len(list_2))
+#
+# # zip() is called to pair each permutation
+# # and shorter list element into combination
+# for comb in permut:
+#     zipped = zip(comb, list_2)
+#     unique_combinations.append(list(zipped))
+#
+# # printing unique_combination list
+# print(unique_combinations)
+#
+# #Find raster with max visible values
+# #Loop through each combination of max raster and other raster and run diff
+# #Store values into a new data frame -> value '2' is new coverage from second raster that "max" raster does not have
+# #Print raster combination with highest '2' value (most new coverage)
+# #Yay.
