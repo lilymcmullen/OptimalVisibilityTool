@@ -8,10 +8,11 @@ import os
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
-# set workspace
+# set workspace - replace this with your project workspace!
 arcpy.env.workspace = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb"
-# crop input raster to bounds (DEM of general area via USGS)
+# crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
 uncropRaster = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\output_USGS30m.tif"
+#boundary polygon for the extent of our area - replace this with your area's boundaries!
 bounds = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\bounds"
 cropRaster = ExtractByMask(uncropRaster, bounds)
 cropRaster.save("C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\SRER.gdb\\cropRaster")
