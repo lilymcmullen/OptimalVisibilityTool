@@ -2,11 +2,9 @@
 import arcpy
 from arcpy import env
 from arcpy.sa import *
-import os
-from osgeo import gdal
-import itertools
-from itertools import permutations
+import csv
 import pandas as pd
+import os
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
@@ -43,22 +41,47 @@ for pointid in all_object_ids:  # For each object id in the object id list
     # save output raster with name called in above
     outvis.save(output_raster_name)
 
-# set the environment to the folder with output rasters
-env = r"C:\Users\lilyb\OneDrive\Desktop\visibout"
+# Set the workspace environment to the folder containing the rasters
+arcpy.env.workspace = r"C:\Users\lilyb\OneDrive\Desktop\visibout"
 
-# create an empty list to store the dataframes
-dfs = []
+# Use the ListRasters function to create a list of rasters in the folder
+rasters = arcpy.ListRasters()
 
-# loop through all raster files in the input directory
-for raster in arcpy.ListRasters():
-    # convert the raster to a numpy array
-    arr = arcpy.RasterToNumPyArray(raster)
-    # convert the numpy array to a pandas dataframe
-    df = pd.DataFrame(arr)
-    # add the dataframe to the list
-    dfs.append(df)
+# Initialize variables to keep track of the maximum count value and the name of the raster with the maximum count value
+max_count = -1
+max_count_raster = ""
 
-# find the point with max visibility from the dataframe
-best_point = max(dfs)
-print(best_point)
+# Iterate through the list of rasters
+for raster in rasters:
+    # Create a unique filename for the output dataframe
+    output_filename = f"{raster}_table.csv"
 
+    # Get the raster attribute table as a table view
+    table_view_name = f"{raster}_view"
+    table_view = arcpy.MakeTableView_management(raster, table_view_name)
+
+    # Get the Count value from each raster table using a SearchCursor
+    count_field = "Count"
+    with arcpy.da.SearchCursor(table_view, count_field) as cursor:
+        count_values = [row[0] for row in cursor]
+
+    # Find the maximum count value
+    count_max = max(count_values)
+
+    # Check if the Count value is greater than the current maximum count value
+    if count_max > max_count:
+        # If so, update the maximum count value and the name of the raster with the maximum count value
+        max_count = count_max
+        max_count_raster = raster
+
+    # Convert the table view to a Pandas dataframe
+    dataframe = pd.DataFrame.from_records(arcpy.da.TableToNumPyArray(table_view, count_field))
+
+    # Save the dataframe to a file
+    dataframe.to_csv(output_filename, index=False)
+
+    # Print a message indicating the dataframe has been saved
+    print(f"{output_filename} saved successfully.")
+
+# Print the name of the raster with the maximum count value
+print(f"Raster with the highest visibility is {max_count_raster} with a count of {max_count}")
