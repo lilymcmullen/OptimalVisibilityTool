@@ -1,4 +1,4 @@
-An ArcPy script for conducting visibility analysis and finding the raster with the highest visibility count. 
+An ArcPy script for conducting visibility analysis and finding the point with the highest visibility count. 
 The code reads in an uncropped raster, a boundary polygon, and a feature class containing points.
 It then crops the input raster based on the boundary polygon and finds local peaks in the resulting raster using the FindLocalPeaksValleys function.
 
