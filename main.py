@@ -21,6 +21,7 @@ in_raster = "C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\SRER
 # set feature class, can be any shapefile of points
 points_class = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\selected_points"
 feature_class = arcpy.defense.FindLocalPeaksValleys(in_raster, points_class, "PEAKS", 15)
+#see if we can clip the raster to the cell service raster and also clip the raster to road buffer
 # so we can call ID field
 field = 'OBJECTID'
 # list all object IDs (from field = 'OBJECTID'
@@ -35,6 +36,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
     arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
     # run visibility analysis, with in_raster and templayer as observer
     outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA")
+    # add 20 feet height/6 meters
     # name the objects using object ID
     # I named them visibility_analysis_1.tif, visibility_analysis_2.tif etc...
     output_raster_name = os.path.join(r"C:\Users\lilyb\OneDrive\Desktop\visibout",
