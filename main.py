@@ -35,7 +35,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
     # create a layer with only this point in it
     arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
     # run visibility analysis, with in_raster and templayer as observer
-    outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA")
+    outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
     # add 20 feet height/6 meters
     # name the objects using object ID
     # I named them visibility_analysis_1.tif, visibility_analysis_2.tif etc...

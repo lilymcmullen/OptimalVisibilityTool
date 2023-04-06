@@ -40,7 +40,7 @@ for i in range(len(all_object_ids)-1):  # For each point except the last one
         # create a layer with only these points in it
         arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
         # run visibility analysis, with in_raster and templayer as observer
-        outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA")
+        outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
         # name the output raster using the point IDs
         output_raster_name = os.path.join(r"C:\Users\lilyb\OneDrive\Desktop\visibout2",
                                           "visiblity_analysis_{0}_{1}.tif".format(all_object_ids[i], all_object_ids[j]))
@@ -48,15 +48,6 @@ for i in range(len(all_object_ids)-1):  # For each point except the last one
         outvis.save(output_raster_name)
         # add the output raster name to the list
         output_rasters.append(output_raster_name)
-
-# import required packages
-import arcpy
-from arcpy import env
-from arcpy.sa import *
-import csv
-import pandas as pd
-import os
-
 
 # Set the workspace environment to the folder containing the rasters
 arcpy.env.workspace = r"C:\Users\lilyb\OneDrive\Desktop\visibout2"
