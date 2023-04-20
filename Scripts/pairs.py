@@ -22,7 +22,8 @@ arcpy.env.overwriteOutput = True
 cropRaster = ExtractByMask(uncropRaster, bounds)
 cropRaster.save("cropRaster")
 
-# point selection- find local peaks within cropped raster
+# point selection- find local peaks within cropped raster.
+# Default is 15 points, but set higher for more accuracy, and lower for faster processing time.
 pointsSelection = arcpy.defense.FindLocalPeaksValleys(cropRaster, "pointsSelection", "PEAKS", 15)
 
 # Set the path for the new folder to hold visibility outputs relative to the current workspace

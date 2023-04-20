@@ -38,7 +38,8 @@ roadRaster = arcpy.gp.ExtractByMask_sa(input_raster, buffer_polyg)
 roadRaster = arcpy.Raster(roadRaster)  # convert ResultObject to Raster object
 roadRaster.save("roadRaster")
 
-# Find local peaks in roadRaster
+# point selection- find local peaks within road raster.
+# Default is 15 points, but set higher for more accuracy, and lower for faster processing time.
 pointsSelection = arcpy.defense.FindLocalPeaksValleys(roadRaster, "pointsSelection", "PEAKS", 15)
 
 # Set the path for the new folder to hold visibility outputs relative to the current workspace
@@ -112,7 +113,7 @@ for raster in rasters:
     # Save the dataframe to a file
     dataframe.to_csv(output_filename, index=False)
 
-    # Print a message indicating the dataframe has been saved
+    # Print a message showing the dataframe has been saved
     print(f"{output_filename} saved successfully.")
 
 # Print the name of the raster with the maximum count value

@@ -60,7 +60,8 @@ cellRaster = arcpy.sa.ExtractByMask(cropRaster, output_fc)
 # Save the final cropped raster to a new file
 cellRaster.save("cellRaster")
 
-# point selection: please view tutorial on https://github.com/lilymcmullen/Best_LOS_Tool for point selection options!
+# point selection- find local peaks within cropped raster.
+# Default is 15 points, but set higher for more accuracy, and lower for faster processing time.
 feature_class = r'C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\highest_pts'
 
 in_raster = cellRaster
