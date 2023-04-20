@@ -6,14 +6,21 @@ import csv
 import pandas as pd
 import os
 
-# set workspace - replace this with your project workspace!
+
+# # set workspace - replace this with your project workspace/geodatabase (view HowToFindFilePaths.md on github if confused!)
 arcpy.env.workspace = r"C:\example\ArcGIS\Projects\folder\geodatabase.gdb"
-# set location for raster files - replace this with a folder on your computer!
+
+# # set location for raster files - replace this with any folder on your computer that can store your raster files.
+# If you aren't sure, put it on your desktop.
 folder = r"C:\folderLocation"
-# crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
+
+# # set input raster DEM - replace this with your area's DEM! (view HowToFindYourDEM.md on github)
 uncropRaster = r"C:\RasterDEM"
-#boundary polygon for the extent of our area - replace this with your area's boundaries!
+
+# # boundary polygon for the extent of our area - replace this with a shapefile of your area's boundaries!
+# Look up US Parcel boundaries and download a shapefile of your area if you aren't sure
 bounds = r"C:\boundaryPolygon"
+
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
@@ -26,7 +33,8 @@ cropRaster.save("cropRaster")
 # Default is 15 points, but set higher for more accuracy, and lower for faster processing time.
 pointsSelection = arcpy.defense.FindLocalPeaksValleys(cropRaster, "pointsSelection", "PEAKS", 15)
 
-# Set the path for the new folder to hold visibility outputs relative to the current workspace
+# Set the path for the new folder to hold visibility outputs relative to the current workspace.
+# You can change the folder_name
 folder_name = "visibOutputs1"
 folder_path = os.path.join(folder, folder_name)
 
@@ -53,7 +61,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
     sql = "{0}={1}".format(arcpy.AddFieldDelimiters(datasource=feature_class, field=objectidfield), pointid)
     # create a layer with only this point in it
     arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
-    # run visibility analysis, with in_raster and templayer as observer. observer height is 6 (meters)
+    # run visibility analysis, with in_raster and templayer as observer. observer height is 6 (meters), but you can change the observer_offset value!
     outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
     # name the objects using object ID
     # I named them visibility_analysis_1.tif, visibility_analysis_2.tif etc...
@@ -65,7 +73,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
 # Use the ListRasters function to create a list of rasters in the folder
 rasters = arcpy.ListRasters()
 
-# Initialize variables to keep track of the maximum count value and the name of the raster with the maximum count value
+# variables to keep track of the maximum count value and the name of the raster with the maximum count value
 max_count = -1
 max_count_raster = ""
 
@@ -102,4 +110,8 @@ for raster in rasters:
     print(f"{output_filename} saved successfully.")
 
 # Print the name of the raster with the maximum count value
+# The count value represents the number of raster cells that the point has visibility of
 print(f"Raster with the highest visibility is {max_count_raster} with a count of {max_count}")
+# You can find this raster in your specified output folder.
+# The raster number corresponds with the point number within the "pointsSelection" feature class
+# View the 'HowToInterpretResults.md' in the tutorials folder on github for more information

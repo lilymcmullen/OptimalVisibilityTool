@@ -6,16 +6,27 @@ import csv
 import pandas as pd
 import os
 
-# set workspace - replace this with your project workspace!
+
+# # set workspace - replace this with your project workspace/geodatabase (view HowToFindFilePaths.md on github if confused!)
 arcpy.env.workspace = r"C:\example\ArcGIS\Projects\folder\geodatabase.gdb"
-# set location for raster files - replace this with a folder on your computer!
-folder = r"C:\exampleFolderLocation"
-# crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
-uncropRaster = r"C:\exampleRasterDEM"
-#boundary polygon for the extent of our area - replace this with your area's boundaries!
-bounds = r"C:\exampleBoundaryPolygon"
+
+# # set location for raster files - replace this with any folder on your computer that can store your raster files.
+# If you aren't sure, put it on your desktop.
+folder = r"C:\folderLocation"
+
+# # set input raster DEM - replace this with your area's DEM! (view HowToFindYourDEM.md on github)
+uncropRaster = r"C:\RasterDEM"
+
+# # boundary polygon for the extent of our area - replace this with a shapefile of your area's boundaries!
+# Look up US Parcel boundaries and download a shapefile of your area if you aren't sure
+bounds = r"C:\boundaryPolygon"
+
 # roads shapefile - replace with a shapefile with your area's roads and/or trails!
 roads = r"C:\exampleRoadsPolygon"
+
+# set the distance from road or trail polygon
+buffer_distance = "1 Mile"
+
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
@@ -24,14 +35,13 @@ arcpy.env.overwriteOutput = True
 cropRaster = arcpy.sa.ExtractByMask(uncropRaster, bounds)
 cropRaster.save("cropRaster")
 
-
 # Define the input and output file paths
 input_polygons = roads
 input_raster = cropRaster
 buffer_polyg = "roads_buffered_raster"
 
-# Buffer the polygon by one mile
-arcpy.Buffer_analysis(input_polygons, buffer_polyg, "1 Mile")
+# Buffer the polygon by specified buffer_distance
+arcpy.Buffer_analysis(input_polygons, buffer_polyg, buffer_distance)
 
 # Crop the raster to the buffered polygon
 roadRaster = arcpy.gp.ExtractByMask_sa(input_raster, buffer_polyg)
@@ -118,3 +128,7 @@ for raster in rasters:
 
 # Print the name of the raster with the maximum count value
 print(f"Raster with the highest visibility is {max_count_raster} with a count of {max_count}")
+# The count value represents the number of raster cells that the point has visibility of
+# You can find this raster in your specified output folder.
+# The raster number corresponds with the point number within the "pointsSelection" feature class
+# View the 'HowToInterpretResults.md' in the tutorials folder on github for more information
