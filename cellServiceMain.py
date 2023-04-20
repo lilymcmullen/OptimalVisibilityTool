@@ -22,11 +22,59 @@ arcpy.env.overwriteOutput = True
 cropRaster = ExtractByMask(uncropRaster, bounds)
 cropRaster.save("cropRaster")
 
-# point selection- find local peaks within cropped raster
-pointsSelection = arcpy.defense.FindLocalPeaksValleys(cropRaster, "pointsSelection", "PEAKS", 15)
+# specify input feature classes- using AT&T and Verizon cell service shapefiles. You can download these from
+# https://fcc.maps.arcgis.com/apps/webappviewer/index.html?id=6c1b2e73d9d749cdb7bc88a0d1bdd25b
+# these specific shapefiles are only covering America.
+input_fc1 = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\ATT_Mobile.shp"
+input_fc2 = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\Verizon_Wireless.shp"
 
-# Set the path for the new folder to hold visibility outputs relative to the current workspace
-folder_name = "visibOutputs1"
+#crop each shapefile to the area you are working with
+
+input_poly = input_fc2
+cropinput_fc1 = "ATTcrop"
+cropinput_fc2 = "VWcrop"
+# Create a new output polygon file name
+output_poly1 = cropinput_fc1
+output_poly2 = cropinput_fc2
+# Use the clip tool to clip the input polygon to the clip boundary
+arcpy.Clip_analysis(input_fc1, bounds, output_poly1)
+arcpy.Clip_analysis(input_fc2, bounds, output_poly2)
+
+#now, merge these polygons together so you get a total service area!
+# create a new feature class to store the merged polygon
+output_fc = "merged_service"
+arcpy.management.CreateFeatureclass(arcpy.env.workspace, output_fc, "POLYGON")
+
+# create a list of the input feature classes
+input_fcs = [cropinput_fc1, cropinput_fc2]
+
+# use Union_analysis tool to merge the polygons
+arcpy.analysis.Union(input_fcs, output_fc)
+
+# merged polygon of ATT and VW range is created and saved to your workspace.
+
+#now we will clip the cropped raster to the extent of the cell service range polygon
+
+cellRaster = arcpy.sa.ExtractByMask(cropRaster, output_fc)
+
+# Save the final cropped raster to a new file
+cellRaster.save("cellRaster")
+
+# point selection: please view tutorial on https://github.com/lilymcmullen/Best_LOS_Tool for point selection options!
+feature_class = r'C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\highest_pts'
+
+in_raster = cellRaster
+feature_class = arcpy.defense.FindLocalPeaksValleys(in_raster, feature_class, "PEAKS", 15)
+
+# assign ID field
+field = 'OBJECTID'
+# list all object IDs (from field = 'OBJECTID'
+all_object_ids = [row[0] for row in arcpy.da.SearchCursor(feature_class, field)]
+# Find the object ID fieldname
+objectidfield = arcpy.Describe(feature_class).OIDFieldName
+
+# Set the path for the new folder relative to the current workspace
+folder_name = "visibOutputsCell"
 folder_path = os.path.join(folder, folder_name)
 
 # Create the new folder if it doesn't already exist
@@ -36,16 +84,6 @@ if not os.path.exists(folder_path):
 
 # Set the current workspace to the new folder
 arcpy.env.workspace = folder_path
-
-#set raster as cropRaster and points as pointsSelection for viewshed analysis
-feature_class = pointsSelection
-in_raster = cropRaster
-# so we can call ID field
-field = 'OBJECTID'
-# list all object IDs (from field = 'OBJECTID'
-all_object_ids = [row[0] for row in arcpy.da.SearchCursor(feature_class, field)]
-# Find the object ID fieldname
-objectidfield = arcpy.Describe(feature_class).OIDFieldName
 # looping through the points
 for pointid in all_object_ids:  # For each object id in the object id list
     # create a where clause to select only the point with this object ID
@@ -53,7 +91,7 @@ for pointid in all_object_ids:  # For each object id in the object id list
     # create a layer with only this point in it
     arcpy.MakeFeatureLayer_management(in_features=feature_class, out_layer='templayer', where_clause=sql)
     # run visibility analysis, with in_raster and templayer as observer. observer height is 6 (meters)
-    outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
+    outvis = arcpy.sa.Visibility(cellRaster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
     # name the objects using object ID
     # I named them visibility_analysis_1.tif, visibility_analysis_2.tif etc...
     output_raster_name = os.path.join(folder_path,

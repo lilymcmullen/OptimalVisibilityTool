@@ -6,28 +6,47 @@ import csv
 import pandas as pd
 import os
 
+# set workspace - replace this with your project workspace!
+arcpy.env.workspace = r"C:\example\ArcGIS\Projects\folder\geodatabase.gdb"
+# set location for raster files - replace this with a folder on your computer!
+folder = r"C:\folderLocation"
+# crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
+uncropRaster = r"C:\RasterDEM"
+#boundary polygon for the extent of our area - replace this with your area's boundaries!
+bounds = r"C:\boundaryPolygon"
+
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
-# set workspace - replace this with your project workspace!
-arcpy.env.workspace = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb"
-# crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
-uncropRaster = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\output_USGS30m.tif"
-#boundary polygon for the extent of our area - replace this with your area's boundaries!
-bounds = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\bounds"
+
+#crop raster to boundary to create cropped raster
 cropRaster = ExtractByMask(uncropRaster, bounds)
-cropRaster.save("C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\SRER.gdb\\cropRaster")
-# set input raster to cropped raster
-in_raster = "C:\\Users\\lilyb\\OneDrive\\Documents\\ArcGIS\\Projects\\SRER\\SRER.gdb\\cropRaster"
-# set feature class, can be any shapefile of points
-points_class = r"C:\Users\lilyb\OneDrive\Documents\ArcGIS\Projects\SRER\SRER.gdb\selected_points"
-feature_class = arcpy.defense.FindLocalPeaksValleys(in_raster, points_class, "PEAKS", 15)
+cropRaster.save("cropRaster")
+
+# point selection- find local peaks within cropped raster
+pointsSelection = arcpy.defense.FindLocalPeaksValleys(cropRaster, "pointsSelection", "PEAKS", 15)
+
+# Set the path for the new folder to hold visibility outputs relative to the current workspace
+folder_name = "visibOutputs2"
+folder_path = os.path.join(folder, folder_name)
+
+# Create the new folder if it doesn't already exist
+if not os.path.exists(folder_path):
+    os.mkdir(folder_path)
+    print(f"Folder '{folder_name}' created successfully!")
+
+# Set the current workspace to the new folder
+arcpy.env.workspace = folder_path
+
+#set raster as cropRaster and points as pointsSelection for viewshed analysis
+feature_class = pointsSelection
+in_raster = cropRaster
+
 # so we can call ID field
 field = 'OBJECTID'
 # list all object IDs (from field = 'OBJECTID'
 all_object_ids = [row[0] for row in arcpy.da.SearchCursor(feature_class, field)]
 # Find the object ID fieldname
 objectidfield = arcpy.Describe(feature_class).OIDFieldName
-
 # create a list to hold output raster names
 output_rasters = []
 
@@ -42,15 +61,12 @@ for i in range(len(all_object_ids)-1):  # For each point except the last one
         # run visibility analysis, with in_raster and templayer as observer
         outvis = arcpy.sa.Visibility(in_raster, 'templayer', analysis_type="OBSERVERS", nonvisible_cell_value="NODATA", observer_offset=6)
         # name the output raster using the point IDs
-        output_raster_name = os.path.join(r"C:\Users\lilyb\OneDrive\Desktop\visibout2",
+        output_raster_name = os.path.join(folder_path,
                                           "visiblity_analysis_{0}_{1}.tif".format(all_object_ids[i], all_object_ids[j]))
         # save output raster with name called in above
         outvis.save(output_raster_name)
         # add the output raster name to the list
         output_rasters.append(output_raster_name)
-
-# Set the workspace environment to the folder containing the rasters
-arcpy.env.workspace = r"C:\Users\lilyb\OneDrive\Desktop\visibout2"
 
 # Use the ListRasters function to create a list of rasters in the folder
 rasters = arcpy.ListRasters()

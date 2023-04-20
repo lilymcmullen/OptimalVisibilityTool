@@ -9,24 +9,40 @@ import os
 # set workspace - replace this with your project workspace!
 arcpy.env.workspace = r"C:\example\ArcGIS\Projects\folder\geodatabase.gdb"
 # set location for raster files - replace this with a folder on your computer!
-folder = r"C:\folderLocation"
+folder = r"C:\exampleFolderLocation"
 # crop input raster to bounds (DEM of general area via USGS) - replace this with your area's DEM!
-uncropRaster = r"C:\RasterDEM"
+uncropRaster = r"C:\exampleRasterDEM"
 #boundary polygon for the extent of our area - replace this with your area's boundaries!
-bounds = r"C:\boundaryPolygon"
+bounds = r"C:\exampleBoundaryPolygon"
+# roads shapefile - replace with a shapefile with your area's roads and/or trails!
+roads = r"C:\exampleRoadsPolygon"
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
 
 #crop raster to boundary to create cropped raster
-cropRaster = ExtractByMask(uncropRaster, bounds)
+cropRaster = arcpy.sa.ExtractByMask(uncropRaster, bounds)
 cropRaster.save("cropRaster")
 
-# point selection- find local peaks within cropped raster
-pointsSelection = arcpy.defense.FindLocalPeaksValleys(cropRaster, "pointsSelection", "PEAKS", 15)
+
+# Define the input and output file paths
+input_polygons = roads
+input_raster = cropRaster
+buffer_polyg = "roads_buffered_raster"
+
+# Buffer the polygon by one mile
+arcpy.Buffer_analysis(input_polygons, buffer_polyg, "1 Mile")
+
+# Crop the raster to the buffered polygon
+roadRaster = arcpy.gp.ExtractByMask_sa(input_raster, buffer_polyg)
+roadRaster = arcpy.Raster(roadRaster)  # convert ResultObject to Raster object
+roadRaster.save("roadRaster")
+
+# Find local peaks in roadRaster
+pointsSelection = arcpy.defense.FindLocalPeaksValleys(roadRaster, "pointsSelection", "PEAKS", 15)
 
 # Set the path for the new folder to hold visibility outputs relative to the current workspace
-folder_name = "visibOutputs1"
+folder_name = "visibOutputsRoads"
 folder_path = os.path.join(folder, folder_name)
 
 # Create the new folder if it doesn't already exist
@@ -36,8 +52,7 @@ if not os.path.exists(folder_path):
 
 # Set the current workspace to the new folder
 arcpy.env.workspace = folder_path
-
-#set raster as cropRaster and points as pointsSelection for viewshed analysis
+#set feature class to selected points and input raster to cropRaster for viewshed analysis
 feature_class = pointsSelection
 in_raster = cropRaster
 # so we can call ID field
