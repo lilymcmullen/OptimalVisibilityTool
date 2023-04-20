@@ -2,7 +2,7 @@
 
 The code reads in a digital elevation model of any area and a boundary polygon shapefile that defines the extent of the analysis area. Using this information, it determines which point has the highest visibility and saves the resulting rasters to a specified folder.
 
-<img height="350" src="C:\Users\lilyb\OneDrive\Desktop\LOS tool pictures\Screenshot 2023-04-20 000731.png"/>
+![OnePointViewshed](https://imgur.com/a/0aVUyLT)
 
 This code can be modified to run viewshed analysis on a higher or lower amount of points, for different heights of 'observers' or towers, and for any area.
 
@@ -10,11 +10,11 @@ If some of your area does not have access to cell service and you are using this
 
 If you are limited to how far you can select a point from a road or trail, you can run the **roadsMain** script to identify locations within a specified distance of a road or trail.
 
-<img height="350" src="C:\Users\lilyb\OneDrive\Desktop\LOS tool pictures\Screenshot 2023-04-20 000758.png"/>
+![RoadsExample](https://imgur.com/a/19eKmMS)
 
 Finally, you can modify the code to perform viewshed analysis for two points' combined visibility. This is useful if you have two towers, for example. To do this, you will want to run the **pairs** script.
 
-<img height="350" src="C:\Users\lilyb\OneDrive\Desktop\LOS tool pictures\Screenshot 2023-04-20 000811.png"/>
+![Two Points Example](https://imgur.com/a/S8Y90Wq)
 
 The user can access coordinates for the selected point(s), as well as a raster with the visible area from that point(s).
 
