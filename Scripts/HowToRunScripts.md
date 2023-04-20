@@ -29,3 +29,5 @@ In each script, there are a few lines at the very top of the code which have com
 ### Step 5: Run your script(s)
 
 Press **F5** and **Okay** to run your script! A shell window will appear, and in a few moments your results will be printed there.
+
+For information about how to interpret these results, view the **HowToInterpretResults** tutorial file!
