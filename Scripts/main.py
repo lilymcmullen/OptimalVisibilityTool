@@ -6,26 +6,24 @@ import csv
 import pandas as pd
 import os
 
-
-# # set workspace - replace this with your project workspace/geodatabase (view HowToFindFilePaths.md on github if confused!)
+# set workspace - replace this with your project workspace/geodatabase (view HowToFindFilePaths.md on github if confused!)
 arcpy.env.workspace = r"C:\example\ArcGIS\Projects\folder\geodatabase.gdb"
 
-# # set location for raster files - replace this with any folder on your computer that can store your raster files.
+# set location for raster files - replace this with any folder on your computer that can store your raster files.
 # If you aren't sure, put it on your desktop.
 folder = r"C:\folderLocation"
 
-# # set input raster DEM - replace this with your area's DEM! (view HowToFindYourDEM.md on github)
+# set input raster DEM - replace this with your area's DEM! (view HowToFindYourDEM.md on github)
 uncropRaster = r"C:\RasterDEM"
 
-# # boundary polygon for the extent of our area - replace this with a shapefile of your area's boundaries!
+# boundary polygon for the extent of our area - replace this with a shapefile of your area's boundaries!
 # Look up US Parcel boundaries and download a shapefile of your area if you aren't sure
 bounds = r"C:\boundaryPolygon"
-
 
 # allows arcpy to overwrite previous outputs
 arcpy.env.overwriteOutput = True
 
-#crop raster to boundary to create cropped raster
+# crop raster to boundary to create cropped raster
 cropRaster = ExtractByMask(uncropRaster, bounds)
 cropRaster.save("cropRaster")
 
@@ -46,7 +44,7 @@ if not os.path.exists(folder_path):
 # Set the current workspace to the new folder
 arcpy.env.workspace = folder_path
 
-#set raster as cropRaster and points as pointsSelection for viewshed analysis
+# set raster as cropRaster and points as pointsSelection for viewshed analysis
 feature_class = pointsSelection
 in_raster = cropRaster
 # so we can call ID field
