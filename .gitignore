@@ -1,0 +1,24 @@
+# ignore obsidian config files
+.obsidian
+
+# ignore ArcGIS Pro files
+*.aprx
+*.atbx
+ImportLog
+Index
+OptimalVisibilityTool.gdb
+GpMessages
+scratch.gdb
+
+# ignore PyCharm config files
+.idea
+
+# ignore rasters and shapefiles specific to this project
+Rasters
+Shapefiles
+
+# ignore exported maps
+Layouts
+
+# ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints
