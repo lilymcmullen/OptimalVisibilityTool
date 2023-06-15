@@ -13,7 +13,7 @@ If you are not familiar with the ArcGIS Pro ArcPy package, please view the [What
 ## What is this project?
 
 <div>
-    <img alt="Santa Rita Experimental Range Visibility Analysis" height="350" src="Images/img_3.png"/>
+    <img alt="Santa Rita Experimental Range Visibility Analysis" height="350" src="Images/SRER-Radio-Coverage.png"/>
 </div>
 
 The code reads in a digital elevation model of any area and a boundary polygon shapefile that defines the extent of the analysis area. Using this information, it determines which point has the highest visibility and saves the resulting rasters to a specified folder. It determines the optimal location for a virtual fence base station, pair of base stations, base station only within cell service range, or base station only within a specified distance of a road or trail.
