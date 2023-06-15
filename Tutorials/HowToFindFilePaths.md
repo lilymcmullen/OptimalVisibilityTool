@@ -1,5 +1,6 @@
-### To run the scripts, you will need to input a few local file paths. This is so ArcGIS knows what spatial data to use and where to put your outputs.
+To run the scripts, you may need to input a few local file paths. This is so ArcGIS knows what spatial data to use and where to put your outputs.
 
+Here are some instructions on how to find the file paths you need.
 
 ### In ArcGIS Pro...
 #### Step 1: Open the Catalog Pane
@@ -12,7 +13,9 @@ If it is not already in the catalog pane, right click on 'Folders' and 'Add Fold
 #### Step 3: Copy path
 Right click the desired folder, file, or geodatabase and select "Copy Path", or use Ctrl+Alt+P
 
-<img alt="img.png" height="350" src="../Github%20Images/img.png"/>
+<div>
+<img alt="img.png" height="350" src="../Images/Copy-Path-From-Catalog.png"/>
+</div>
 
 ### In Windows Explorer...
 #### Step 1: Navigate to the file
