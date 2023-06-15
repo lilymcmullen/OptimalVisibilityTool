@@ -1,6 +1,10 @@
 #### These scripts are written in Python and use the ArcPy module to perform geoprocessing tasks within ArcGIS Pro to find the points within a digital elevation model (DEM) that have the highest visibility.
 #### This means you will need a valid ArcGIS Pro installation, as well as access to the Spatial Analysis extension in order to run these scripts.
-<img alt="img_3.png" height="350" src="Github Images/img_3.png"/>
+
+<div>
+    <img alt="img_3.png" height="350" src="Images/img_3.png"/>
+</div>
+
 
 The code reads in a digital elevation model of any area and a boundary polygon shapefile that defines the extent of the analysis area. Using this information, it determines which point has the highest visibility and saves the resulting rasters to a specified folder.
 
