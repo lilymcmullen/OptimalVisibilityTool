@@ -13,10 +13,6 @@ scratch.gdb
 # ignore PyCharm config files
 .idea
 
-# ignore rasters and shapefiles specific to this project
-Rasters
-Shapefiles
-
 # ignore exported maps
 Layouts
 
