@@ -3,12 +3,12 @@
 ## Requirements
 
 License Requirements: 
-    ArcGIS Pro >3.0 
-    Spatial Analyst Extension
+- ArcGIS Pro >3.0 
+- Spatial Analyst Extension
 
-You must have ArcGIS Pro installed on your computer to run these Python scripts/Jupyter Notebooks, and you must have the Spatial Analyst extension enabled.
+You must have ArcGIS Pro installed on your computer to run these Python scripts/Jupyter Notebooks, and you must have the Spatial Analyst extension/license enabled.
 
-If you are not familiar with the ArcGIS Pro ArcPy package, please view the [What is ArcPy?](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm).
+These scripts use ArcPy, a Python site-package that allows you to run ArcGIS geo-processing tools and other ArcGIS functionality from Python. If you are not familiar with the ArcPy package, please view the [What is ArcPy?](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm).
 
 ## What is this project?
 
@@ -16,19 +16,25 @@ If you are not familiar with the ArcGIS Pro ArcPy package, please view the [What
     <img alt="Santa Rita Experimental Range Visibility Analysis" height="350" src="Images/SRER-Radio-Coverage.png"/>
 </div>
 
-The code reads in a digital elevation model of any area and a boundary polygon shapefile that defines the extent of the analysis area. Using this information, it determines which point has the highest visibility and saves the resulting rasters to a specified folder. It determines the optimal location for a virtual fence base station, pair of base stations, base station only within cell service range, or base station only within a specified distance of a road or trail.
+The goal of this project is to determine the optimal placement for a virtual fence base station to provide optimal radio coverage across your area of interest. There are multiple scripts/notebooks to analyse different placement options, such as a single base station, a pair of base stations, placing a base station only within cell service, or base station only within a specified distance of a road or trail. Each of these options is explained in more detail below.
 
-This code can be modified to run viewshed analysis on a higher or lower amount of points, for different heights of 'observers' or towers, and for any area.
+## How it Works
 
-If some of your area does not have access to cell service and you are using this script for a tower, or something else that requires cell service, you can run the **cellServiceMain** script that will only find points within cell service range. 
+The code reads in a digital elevation model (DEM) from your area of interest, finds peaks (e.g., hills, mountains) within your area, and performs a visibility analysis for each of these peaks. It then generates a raster for each of the peaks, and models how much of your area of interest is visible from each of these peaks. The amount of area visible in each raster is an approximation for the radio coverage provided by a virtual fence base station, or pair of virtual fence base stations. Actual radio coverage may vary by a number of factors, such as terrain, signal attenuation and reflectance, and vegetation cover. This code can be modified to run a viewshed analysis on a higher or lower amount of points, for different antenna heights, and for any area.
 
-If you are limited to how far you can select a point from a road or trail, you can run the **roadsMain** script to identify locations within a specified distance of a road or trail.
+An example DEM and boundary shapefile of the Santa Rita Experimental Range is provided in each notebook, but you will need to provide a DEM and a boundary shapefile for your area of interest. There is a tutorial [HowtoFindYourDEM.md](/Tutorials/HowToFindYourDEM.md) in the "Tutorials" folder that provides some help on how to locate a DEM for your area of interest. The boundary shapefile is a polygon that defines the extent of the analysis area. If you have permission to place a virtual fence base station on land surrounding your area, such as on a nearby mountain that may not be within your grazing area, use a shapefile that includes those potential areas outside your grazing area. Doing so will give you more potential placements for your virtual fence base station and likely will give you better radio coverage.
 
-Finally, you can modify the code to perform viewshed analysis for two points' combined visibility. This is useful if you have two towers, for example. To do this, you will want to run the **pairs** script.
+## Overview of Scripts
 
-The user can access coordinates for the selected point(s), as well as a raster with the visible area from that point(s).
+If you want to find the optimal placement for a single virtual fence base station, you can run the Jupyter Notebook [Find-Optimal-Location-for-Single-Base-Station.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station.ipynb). ***This Jupyter Notebook is intended to be run inside of ArcGIS Pro with the Spatial Analysis extension/license. It is not intended to be run in a Jupyter Notebook outside of ArcGIS Pro.***
 
-Please feel free to view the tutorials about these scripts within the **Tutorials** folder as needed.
+If some of your area does not have access to cell service and you are using this script for a base station, or something else that requires cell service, you can run the [cellServiceMain.py](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Scripts/cellServiceMain.py) script that will only find potential base station placements within cell service range. 
+
+If you are limited to how far you can place a base station from a road or trail, you can run the [roadsMain.py](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Scripts/roadsMain.py) script to identify locations within a specified distance from a road or trail.
+
+If you have two virtual fence base stations, and you can run [pairs.py](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Scripts/pairs.py) to estimate the radio coverage from two base stations.
+
+Each script/notebook provides instructions on how to run it.
 
 ### References
 
