@@ -1,6 +1,6 @@
 # HowToFindYourDEM
 
-OpenTopography has digital elevations models (DEM) for most of the U.S. However you could use a DEM raster from any other source. 
+OpenTopography has digital elevations models (DEM) for most of the U.S. You can also use a DEM raster (.tif) from any source. 
 
 [OpenTopography.org](https://portal.opentopography.org/datasets)
 
