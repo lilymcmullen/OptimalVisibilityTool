@@ -9,6 +9,7 @@ Index
 OptimalVisibilityTool.gdb
 GpMessages
 scratch.gdb
+/log
 
 # ignore PyCharm config files
 .idea
@@ -18,3 +19,4 @@ Layouts
 
 # ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints
+
