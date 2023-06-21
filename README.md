@@ -12,7 +12,7 @@ These scripts use ArcPy, a Python site-package that allows you to run ArcGIS geo
 
 ***These Jupyter Notebooks are intended to be run inside of ArcGIS Pro with the Spatial Analysis extension/license. It is not intended to be run in a Jupyter Notebook outside of ArcGIS Pro.***
 
-You are free to download and modify these notebooks to suit your purposes. See the [License](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/LICENSE) section for more information.
+You are free to download and modify these notebooks to suit your purposes. See the [License](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/LICENSE) for more information.
 
 ## What is this project?
 
