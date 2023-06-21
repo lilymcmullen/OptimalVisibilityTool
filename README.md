@@ -12,6 +12,8 @@ These scripts use ArcPy, a Python site-package that allows you to run ArcGIS geo
 
 ***These Jupyter Notebooks are intended to be run inside of ArcGIS Pro with the Spatial Analysis extension/license. It is not intended to be run in a Jupyter Notebook outside of ArcGIS Pro.***
 
+You are free to download and modify these notebooks to suit your purposes. See the [License](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/LICENSE) section for more information.
+
 ## What is this project?
 
 <div>
@@ -34,7 +36,7 @@ If some of your area does not have access to cell service and you are using this
 
 If you are limited to how far you can place a base station from a road or trail, you can run the [Find-Optimal-Location-for-Single-Base-Station-Along-a-Road.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station-Along-a-Road.ipynb) script to identify locations within a specified distance from a road or trail.
 
-If you have two virtual fence base stations, and you can run [Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb) to estimate the radio coverage from two base stations.
+If you have two virtual fence base stations and want to see the optimal coverage provided by two base stations, you can run [Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb) to estimate the radio coverage from two base stations.
 
 Each script/notebook provides instructions on how to run it.
 
