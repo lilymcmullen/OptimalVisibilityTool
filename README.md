@@ -10,6 +10,8 @@ You must have ArcGIS Pro installed on your computer to run these Python scripts/
 
 These scripts use ArcPy, a Python site-package that allows you to run ArcGIS geo-processing tools and other ArcGIS functionality from Python. If you are not familiar with the ArcPy package, please view the [What is ArcPy?](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm).
 
+***These Jupyter Notebooks are intended to be run inside of ArcGIS Pro with the Spatial Analysis extension/license. It is not intended to be run in a Jupyter Notebook outside of ArcGIS Pro.***
+
 ## What is this project?
 
 <div>
@@ -26,7 +28,7 @@ An example DEM and boundary shapefile of the Santa Rita Experimental Range is pr
 
 ## Overview of Scripts
 
-If you want to find the optimal placement for a single virtual fence base station, you can run the Jupyter Notebook [Find-Optimal-Location-for-Single-Base-Station.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station.ipynb). ***This Jupyter Notebook is intended to be run inside of ArcGIS Pro with the Spatial Analysis extension/license. It is not intended to be run in a Jupyter Notebook outside of ArcGIS Pro.***
+If you want to find the optimal placement for a single virtual fence base station, you can run the Jupyter Notebook [Find-Optimal-Location-for-Single-Base-Station.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station.ipynb).
 
 If some of your area does not have access to cell service and you are using this script for a base station, or something else that requires cell service, you can run the [Find-Optimal-Location-for-Single-Base-Station-Within-Cell-Service.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station-Within-Cell-Service.ipynb) script that will only find potential base station placements within cell service range. 
 
