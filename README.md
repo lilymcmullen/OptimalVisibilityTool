@@ -40,7 +40,7 @@ If you have two virtual fence base stations and want to see the optimal coverage
 
 Each script/notebook provides instructions on how to run it.
 
-### References
+## References
 
 McClaran, Mitchel P.; Angell, Deborah L.; Wissler, Craig. 2002. Santa Rita Experimental Range digital database: user’s guide. Gen. Tech. Rep. RMRS-GTR-100. Ogden, UT: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. 13 p.
 
