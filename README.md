@@ -30,7 +30,7 @@ If you want to find the optimal placement for a single virtual fence base statio
 
 If some of your area does not have access to cell service and you are using this script for a base station, or something else that requires cell service, you can run the [Find-Optimal-Location-for-Single-Base-Station-Within-Cell-Service.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station-Within-Cell-Service.ipynb) script that will only find potential base station placements within cell service range. 
 
-If you are limited to how far you can place a base station from a road or trail, you can run the [roadsMain.py](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Scripts/roadsMain.py) script to identify locations within a specified distance from a road or trail.
+If you are limited to how far you can place a base station from a road or trail, you can run the [Find-Optimal-Location-for-Single-Base-Station-Along-a-Road.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Single-Base-Station-Along-a-Road.ipynb) script to identify locations within a specified distance from a road or trail.
 
 If you have two virtual fence base stations, and you can run [Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb](https://github.com/lilymcmullen/OptimalVisibilityTool/blob/master/Notebooks/Find-Optimal-Location-for-Pair-of-Base-Stations.ipynb) to estimate the radio coverage from two base stations.
 
