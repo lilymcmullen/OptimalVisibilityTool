@@ -45,3 +45,7 @@ Each script/notebook provides instructions on how to run it.
 McClaran, Mitchel P.; Angell, Deborah L.; Wissler, Craig. 2002. Santa Rita Experimental Range digital database: user’s guide. Gen. Tech. Rep. RMRS-GTR-100. Ogden, UT: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. 13 p.
 
 United States Geological Survey (2021). United States Geological Survey 3D Elevation Program 1/3 arc-second Digital Elevation Model. Distributed by OpenTopography. https://doi.org/10.5069/G98K778D. Accessed: 2023-06-15
+
+## Contact Information
+
+Problems or questions? Contact Andrew Antaya (aantaya@arizona.edu).
