@@ -1,5 +1,7 @@
 # How to Find the Optimal Location for Virtual Fence Base Stations
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8118534.svg)](https://doi.org/10.5281/zenodo.8118534)
+
 ## Requirements
 
 License Requirements: 
